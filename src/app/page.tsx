@@ -14,8 +14,41 @@ const editionNumber: Record<MagazineVersion, string> = {
 };
 
 const HomePage = () => {
+  const [isLoading, setIsLoading] = useState(true);
   const [readerVersion, setReaderVersion] = useState<MagazineVersion | null>(null);
   const [featuredCover, setFeaturedCover] = useState("/images/v3.jpg");
+
+  useEffect(() => {
+    const startedAt = Date.now();
+    const minimumDisplayTime = 1000;
+    const maximumDisplayTime = 2000;
+
+    const preloadImages = ["/images/v1.jpg", "/images/v2.jpg"].map(
+      (source) =>
+        new Promise<void>((resolve) => {
+          const image = new window.Image();
+          image.onload = () => resolve();
+          image.onerror = () => resolve();
+          image.src = source;
+        }),
+    );
+
+    const hideLoader = () => {
+      const remainingTime = Math.max(
+        0,
+        minimumDisplayTime - (Date.now() - startedAt),
+      );
+      window.setTimeout(() => setIsLoading(false), remainingTime);
+    };
+
+    Promise.all(preloadImages).then(hideLoader);
+    const maximumTimer = window.setTimeout(
+      () => setIsLoading(false),
+      maximumDisplayTime,
+    );
+
+    return () => window.clearTimeout(maximumTimer);
+  }, []);
 
   useEffect(() => {
     if (!readerVersion) return;
@@ -44,6 +77,25 @@ const HomePage = () => {
   };
   return (
     <div className="min-h-screen bg-[#1a1a1a] text-white overflow-x-hidden relative">
+      {isLoading && (
+        <div
+          className="fixed inset-0 z-[100] grid place-items-center bg-[#111]"
+          role="status"
+          aria-label="Loading Computing Spectrum"
+        >
+          <div className="relative grid size-32 place-items-center">
+            <div className="absolute inset-0 rounded-full bg-[#F9A31A]/15 blur-2xl animate-loader-glow" />
+            <Image
+              src="/logo.webp"
+              alt="IEEE Computer Society"
+              width={92}
+              height={92}
+              priority
+              className="relative animate-logo-pump object-contain"
+            />
+          </div>
+        </div>
+      )}
       <div className="fixed inset-0 opacity-[0.03] pointer-events-none">
         <div
           className="absolute w-[200%] h-[200%] animate-grid-move"
