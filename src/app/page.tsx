@@ -51,7 +51,7 @@ const HomePage = () => {
               className="inline-block px-6 py-2 bg-[#F9A31A] text-[#1a1a1a] font-bold text-sm tracking-[2px] animate-pulse-subtle"
               style={{ clipPath: "polygon(0 0, 95% 0, 100% 100%, 5% 100%)" }}
             >
-              LATEST EDITION • V2.0
+              LATEST EDITION • V3.0
             </div>
 
             <h1 className="font-playfair text-6xl md:text-8xl font-black leading-[0.9] bg-linear-to-br from-white to-[#F9A31A] bg-clip-text text-transparent">
@@ -151,6 +151,24 @@ const HomePage = () => {
         </div>
 
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {/* Version 2.0 */}
+          <VersionCard
+            version="v2"
+            number="Edition 2.0"
+            description="Our second edition continues the journey with fresh perspectives on innovation, technology, and the ideas shaping the future of computer science."
+            onDownload={() => downloadMagazine("v2")}
+          >
+            <div className="relative w-full max-w-125 mx-auto aspect-3/4 bg-[#1a1a1a] border-4 border-[#F9A31A] transition-transform duration-600 shadow-[20px_20px_60px_rgba(0,0,0,0.5),-10px_-10px_30px_rgba(249,163,26,0.1)] group-hover:rotate-y-[-5deg] group-hover:rotate-x-[5deg] transform-style-3d overflow-hidden">
+              <Image
+                src="/images/v2.jpg"
+                alt="Computing Spectrum Edition 2.0 cover"
+                fill
+                sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                className="object-cover transition-transform duration-400 group-hover:scale-105"
+              />
+            </div>
+          </VersionCard>
+
           {/* Version 1.0 */}
           <VersionCard
             version="v1"
