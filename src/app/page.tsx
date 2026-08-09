@@ -1,12 +1,40 @@
 "use client";
 
 import VersionCard from "@/components/VersionCard";
-import { Instagram, Linkedin } from "lucide-react";
+import { Download, ExternalLink, Instagram, Linkedin, X } from "lucide-react";
 import Image from "next/image";
+import { useEffect, useState } from "react";
+
+type MagazineVersion = "v1" | "v2" | "v3";
+
+const editionNumber: Record<MagazineVersion, string> = {
+  v1: "1.0",
+  v2: "2.0",
+  v3: "3.0",
+};
 
 const HomePage = () => {
-  const downloadMagazine = (version: "v1" | "v2") => {
-    const url = version === "v1" ? "/files/v1.pdf" : "/files/v2.pdf";
+  const [readerVersion, setReaderVersion] = useState<MagazineVersion | null>(null);
+  const [featuredCover, setFeaturedCover] = useState("/images/v3.jpg");
+
+  useEffect(() => {
+    if (!readerVersion) return;
+
+    const closeOnEscape = (event: KeyboardEvent) => {
+      if (event.key === "Escape") setReaderVersion(null);
+    };
+
+    document.body.style.overflow = "hidden";
+    window.addEventListener("keydown", closeOnEscape);
+
+    return () => {
+      document.body.style.overflow = "";
+      window.removeEventListener("keydown", closeOnEscape);
+    };
+  }, [readerVersion]);
+
+  const downloadMagazine = (version: MagazineVersion) => {
+    const url = `/files/${version}.pdf`;
     const link = document.createElement("a");
     link.href = url;
     link.download = `computing-spectrum-${version}.pdf`;
@@ -61,13 +89,13 @@ const HomePage = () => {
             </h1>
 
             <p className="text-lg md:text-xl text-white/70 leading-relaxed max-w-xl">
-              Exploring innovation, technology, and the future of computer
-              science. Your gateway to cutting-edge ideas and inspiring stories
-              from the IEEE CS UET community.
+              Our third edition, published on August 10, 2026, explores bold new
+              ideas, breakthrough technologies, and the innovations shaping the
+              next generation of computing.
             </p>
 
             <button
-              onClick={() => downloadMagazine("v2")}
+              onClick={() => setReaderVersion("v3")}
               className="p-3 rounded-xl bg-[#F9A31A] text-[#1a1a1a] font-bold text-lg tracking-[2px] border-3 border-[#F9A31A] relative overflow-hidden group"
             >
               <span className="relative z-10 group-hover:text-[#1a1a1a]">
@@ -81,10 +109,11 @@ const HomePage = () => {
             <div className="perspective-1000 group">
               <div className="relative w-full max-w-125 mx-auto aspect-3/4 bg-[#1a1a1a] border-4 border-[#F9A31A] transition-transform duration-600 shadow-[20px_20px_60px_rgba(0,0,0,0.5),-10px_-10px_30px_rgba(249,163,26,0.1)] group-hover:rotate-y-[-5deg] group-hover:rotate-x-[5deg] transform-style-3d overflow-hidden">
                 <Image
-                  src="/images/v2.jpg"
-                  alt="Magazine Cover"
+                  src={featuredCover}
+                  alt="Computing Spectrum Edition 3.0 cover"
                   layout="fill"
                   objectFit="cover"
+                  onError={() => setFeaturedCover("/images/v2.jpg")}
                   className="transition-transform duration-400 group-hover:scale-105"
                 />
               </div>
@@ -99,7 +128,7 @@ const HomePage = () => {
               className="inline-block px-6 py-2 bg-[#F9A31A] text-[#1a1a1a] font-bold text-sm tracking-[2px] animate-pulse-subtle"
               style={{ clipPath: "polygon(0 0, 95% 0, 100% 100%, 5% 100%)" }}
             >
-              LATEST EDITION • V2.0
+              LATEST EDITION • V3.0
             </div>
 
             <h1 className="font-playfair text-6xl font-black leading-[0.9] bg-linear-to-br from-white to-[#F9A31A] bg-clip-text text-transparent">
@@ -112,10 +141,11 @@ const HomePage = () => {
               <div className="perspective-1000 group w-full max-w-sm">
                 <div className="relative w-full aspect-3/4 bg-[#1a1a1a] border-4 border-[#F9A31A] transition-transform duration-600 shadow-[20px_20px_60px_rgba(0,0,0,0.5),-10px_-10px_30px_rgba(249,163,26,0.1)] overflow-hidden">
                   <Image
-                    src="/images/v2.jpg"
-                    alt="Magazine Cover"
+                    src={featuredCover}
+                    alt="Computing Spectrum Edition 3.0 cover"
                     layout="fill"
                     objectFit="cover"
+                    onError={() => setFeaturedCover("/images/v2.jpg")}
                     className="transition-transform duration-400 group-hover:scale-105"
                   />
                 </div>
@@ -123,13 +153,13 @@ const HomePage = () => {
             </div>
 
             <p className="text-lg text-white/70 leading-relaxed max-w-xl">
-              Exploring innovation, technology, and the future of computer
-              science. Your gateway to cutting-edge ideas and inspiring stories
-              from the IEEE CS UET community.
+              Our third edition, published on August 10, 2026, explores bold new
+              ideas, breakthrough technologies, and the innovations shaping the
+              next generation of computing.
             </p>
 
             <button
-              onClick={() => downloadMagazine("v2")}
+              onClick={() => setReaderVersion("v3")}
               className="p-3 rounded-xl bg-[#F9A31A] text-[#1a1a1a] font-bold text-lg tracking-[2px] border-3 border-[#F9A31A] relative overflow-hidden group"
             >
               <span className="relative z-10 group-hover:text-[#1a1a1a]">
@@ -151,12 +181,33 @@ const HomePage = () => {
         </div>
 
         <div className="max-w-7xl mx-auto grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+          {/* Version 3.0 - add the final cover, PDF, and description when ready. */}
+          <VersionCard
+            version="v3"
+            number="Edition 3.0"
+            description="Our third edition, published on August 10, 2026, explores bold new ideas, breakthrough technologies, and the innovations shaping the next generation of computing."
+            onDownload={() => downloadMagazine("v3")}
+            onRead={() => setReaderVersion("v3")}
+          >
+            <div className="relative w-full max-w-125 mx-auto aspect-3/4 bg-[#1a1a1a] border-4 border-[#F9A31A] transition-transform duration-600 shadow-[20px_20px_60px_rgba(0,0,0,0.5),-10px_-10px_30px_rgba(249,163,26,0.1)] group-hover:rotate-y-[-5deg] group-hover:rotate-x-[5deg] transform-style-3d overflow-hidden">
+              <Image
+                src={featuredCover}
+                alt="Computing Spectrum Edition 3.0 cover placeholder"
+                fill
+                sizes="(max-width: 768px) 90vw, (max-width: 1024px) 45vw, 30vw"
+                className="object-cover transition-transform duration-400 group-hover:scale-105"
+                onError={() => setFeaturedCover("/images/v2.jpg")}
+              />
+            </div>
+          </VersionCard>
+
           {/* Version 2.0 */}
           <VersionCard
             version="v2"
             number="Edition 2.0"
             description="Our second edition continues the journey with fresh perspectives on innovation, technology, and the ideas shaping the future of computer science."
             onDownload={() => downloadMagazine("v2")}
+            onRead={() => setReaderVersion("v2")}
           >
             <div className="relative w-full max-w-125 mx-auto aspect-3/4 bg-[#1a1a1a] border-4 border-[#F9A31A] transition-transform duration-600 shadow-[20px_20px_60px_rgba(0,0,0,0.5),-10px_-10px_30px_rgba(249,163,26,0.1)] group-hover:rotate-y-[-5deg] group-hover:rotate-x-[5deg] transform-style-3d overflow-hidden">
               <Image
@@ -175,6 +226,7 @@ const HomePage = () => {
             number="Edition 1.0"
             description="Our first edition, launched in May 2025, set the stage for our journey. It featured insightful articles on AI, cybersecurity, and emerging tech trends."
             onDownload={() => downloadMagazine("v1")}
+            onRead={() => setReaderVersion("v1")}
           >
             <div className="relative w-full max-w-125 mx-auto aspect-3/4 bg-[#1a1a1a] border-4 border-[#F9A31A] transition-transform duration-600 shadow-[20px_20px_60px_rgba(0,0,0,0.5),-10px_-10px_30px_rgba(249,163,26,0.1)] group-hover:rotate-y-[-5deg] group-hover:rotate-x-[5deg] transform-style-3d overflow-hidden">
               <Image
@@ -217,6 +269,61 @@ const HomePage = () => {
           </div>
         </div>
       </footer>
+
+      {readerVersion && (
+        <div
+          className="fixed inset-0 z-50 flex flex-col bg-[#111]/95 backdrop-blur-md animate-fade-in"
+          role="dialog"
+          aria-modal="true"
+          aria-label={`Computing Spectrum Edition ${editionNumber[readerVersion]}`}
+        >
+          <div className="flex items-center justify-between gap-4 border-b border-[#F9A31A]/30 bg-[#1a1a1a] px-4 py-3 md:px-8">
+            <div>
+              <p className="font-bebas text-xl tracking-[3px] text-[#F9A31A] md:text-2xl">
+                Computing Spectrum
+              </p>
+              <p className="text-xs tracking-widest text-white/50">
+                EDITION {editionNumber[readerVersion]}
+              </p>
+            </div>
+
+            <div className="flex items-center gap-2">
+              <a
+                href={`/files/${readerVersion}.pdf`}
+                target="_blank"
+                rel="noreferrer"
+                className="hidden items-center gap-2 border border-[#F9A31A]/50 px-3 py-2 text-xs font-bold tracking-wider text-[#F9A31A] transition-colors hover:bg-[#F9A31A] hover:text-[#1a1a1a] sm:flex"
+              >
+                <ExternalLink size={16} /> OPEN TAB
+              </a>
+              <button
+                onClick={() => downloadMagazine(readerVersion)}
+                className="flex items-center gap-2 border border-[#F9A31A]/50 px-3 py-2 text-xs font-bold tracking-wider text-[#F9A31A] transition-colors hover:bg-[#F9A31A] hover:text-[#1a1a1a]"
+              >
+                <Download size={16} />
+                <span className="hidden sm:inline">DOWNLOAD</span>
+              </button>
+              <button
+                onClick={() => setReaderVersion(null)}
+                className="grid size-10 place-items-center bg-[#F9A31A] text-[#1a1a1a] transition-colors hover:bg-white"
+                aria-label="Close reader"
+              >
+                <X size={22} />
+              </button>
+            </div>
+          </div>
+
+          <div className="relative flex-1 p-2 md:p-5">
+            <div className="mx-auto h-full max-w-6xl overflow-hidden border border-[#F9A31A]/40 bg-[#2a2a2a] shadow-[0_0_60px_rgba(249,163,26,0.15)]">
+              <iframe
+                src={`/files/${readerVersion}.pdf#view=FitH`}
+                title={`Computing Spectrum Edition ${editionNumber[readerVersion]}`}
+                className="h-full w-full"
+              />
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 };
