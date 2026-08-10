@@ -20,7 +20,7 @@ const VersionCard = ({
   return (
     <div
       onClick={() => onRead(version)}
-      className="bg-[#333333] h-[85vh] md:h-[90vh] border-2 border-[#F9A31A]/30 cursor-pointer overflow-hidden flex flex-col transition-all duration-400 hover:border-[#F9A31A] hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(249,163,26,0.3)] animate-fade-in-up group relative"
+      className="bg-[#333333] h-auto w-full max-w-md mx-auto md:max-w-none md:h-[90vh] border-2 border-[#F9A31A]/30 cursor-pointer overflow-hidden flex flex-col transition-all duration-400 hover:border-[#F9A31A] hover:-translate-y-2 hover:shadow-[0_20px_40px_rgba(249,163,26,0.3)] animate-fade-in-up group relative"
     >
       <div className="absolute inset-0 bg-linear-to-r from-transparent via-[#F9A31A]/20 to-transparent -translate-x-full group-hover:translate-x-full transition-transform duration-500 pointer-events-none z-10" />
 
@@ -37,20 +37,20 @@ const VersionCard = ({
         />
       </div>
 
-      <div className="p-8 flex-1 flex flex-col">
-        <div className="font-bebas text-5xl text-[#F9A31A] tracking-[4px] mb-4">
+      <div className="p-5 sm:p-6 md:p-8 flex-1 flex flex-col">
+        <div className="font-bebas text-4xl sm:text-5xl text-[#F9A31A] tracking-[3px] sm:tracking-[4px] mb-3 sm:mb-4">
           {number}
         </div>
-        <p className="text-base text-white/80 leading-relaxed mb-8 flex-1">
+        <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-6 sm:mb-8 flex-1 text-justify md:text-left">
           {description}
         </p>
-        <div className="grid grid-cols-2 gap-3">
+        <div className="grid grid-cols-2 gap-2 sm:gap-3">
           <button
             onClick={(event) => {
               event.stopPropagation();
               onRead(version);
             }}
-            className="inline-flex items-center justify-center px-4 py-3 bg-[#F9A31A] border-2 border-[#F9A31A] text-[#1a1a1a] font-bold text-sm tracking-wider transition-all duration-300 hover:bg-white hover:border-white"
+            className="inline-flex min-w-0 items-center justify-center px-2 py-3 sm:px-4 bg-[#F9A31A] border-2 border-[#F9A31A] text-[#1a1a1a] font-bold text-xs sm:text-sm tracking-wide sm:tracking-wider transition-all duration-300 hover:bg-white hover:border-white"
           >
             READ NOW
           </button>
@@ -59,7 +59,7 @@ const VersionCard = ({
               event.stopPropagation();
               onDownload(version);
             }}
-            className="inline-flex items-center justify-center px-4 py-3 bg-transparent border-2 border-[#F9A31A] text-[#F9A31A] font-bold text-sm tracking-wider transition-all duration-300 hover:bg-[#F9A31A] hover:text-[#1a1a1a]"
+            className="inline-flex min-w-0 items-center justify-center px-2 py-3 sm:px-4 bg-transparent border-2 border-[#F9A31A] text-[#F9A31A] font-bold text-xs sm:text-sm tracking-wide sm:tracking-wider transition-all duration-300 hover:bg-[#F9A31A] hover:text-[#1a1a1a]"
           >
             DOWNLOAD
           </button>
