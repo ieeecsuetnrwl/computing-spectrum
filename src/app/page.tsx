@@ -221,7 +221,7 @@ const HomePage = () => {
             </div>
 
             <p className="w-full max-w-xl text-justify text-base leading-relaxed text-white/70 sm:text-lg">
-              Our third edition, published on August 10, 2026, explores bold new
+              Our third edition, published on August 2026, explores bold new
               ideas, breakthrough technologies, and the innovations shaping the
               next generation of computing.
             </p>
@@ -259,7 +259,7 @@ const HomePage = () => {
           <VersionCard
             version="v2"
             number="Edition 2.0"
-            description="Our second edition continues the journey with fresh perspectives on innovation, technology, and the ideas shaping the future of computer science."
+            description="Our second edition, published on Feburary 2026, continues the journey with fresh perspectives on innovation, technology, and the ideas shaping the future of computer science."
             onDownload={() => downloadMagazine("v2")}
             onRead={() => setReaderVersion("v2")}
           >
