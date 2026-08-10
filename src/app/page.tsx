@@ -3,7 +3,17 @@
 import VersionCard from "@/components/VersionCard";
 import { Download, ExternalLink, Instagram, Linkedin, X } from "lucide-react";
 import Image from "next/image";
+import dynamic from "next/dynamic";
 import { useEffect, useState } from "react";
+
+const PdfReader = dynamic(() => import("@/components/PdfReader"), {
+  ssr: false,
+  loading: () => (
+    <div className="grid h-full place-items-center text-sm tracking-widest text-[#F9A31A]">
+      LOADING READER…
+    </div>
+  ),
+});
 
 type MagazineVersion = "v1" | "v2" | "v3";
 
@@ -357,12 +367,11 @@ const HomePage = () => {
             </div>
           </div>
 
-          <div className="relative flex-1 p-2 md:p-5">
+          <div className="relative min-h-0 flex-1 p-2 md:p-5">
             <div className="mx-auto h-full max-w-6xl overflow-hidden border border-[#F9A31A]/40 bg-[#2a2a2a] shadow-[0_0_60px_rgba(249,163,26,0.15)]">
-              <iframe
-                src={`/files/${readerVersion}.pdf#view=FitH`}
+              <PdfReader
+                file={`/files/${readerVersion}.pdf`}
                 title={`Computing Spectrum Edition ${editionNumber[readerVersion]}`}
-                className="h-full w-full"
               />
             </div>
           </div>
