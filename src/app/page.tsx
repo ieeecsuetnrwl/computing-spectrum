@@ -221,8 +221,7 @@ const HomePage = () => {
             </div>
 
             <p className="w-full max-w-xl text-justify text-base leading-relaxed text-white/70 sm:text-lg">
-              Our third edition, published on August 2026, explores bold new
-              ideas, breakthrough technologies, and the innovations shaping the
+              Our third edition, published on August 2026, explores bold new ideas, breakthrough technologies, and the innovations shaping the
               next generation of computing.
             </p>
 
@@ -278,7 +277,7 @@ const HomePage = () => {
           <VersionCard
             version="v1"
             number="Edition 1.0"
-            description="Our first edition, launched in May 2025, set the stage for our journey. It featured insightful articles on AI, cybersecurity, and emerging tech trends."
+            description="Our first edition, published on May 2025, set the stage for our journey. It featured insightful articles on AI, cybersecurity, and emerging tech trends."
             onDownload={() => downloadMagazine("v1")}
             onRead={() => setReaderVersion("v1")}
           >

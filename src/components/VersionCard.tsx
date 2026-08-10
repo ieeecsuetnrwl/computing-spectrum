@@ -41,7 +41,7 @@ const VersionCard = ({
         <div className="font-bebas text-4xl sm:text-5xl text-[#F9A31A] tracking-[3px] sm:tracking-[4px] mb-3 sm:mb-4">
           {number}
         </div>
-        <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-6 sm:mb-8 flex-1 text-justify md:text-left">
+        <p className="text-sm sm:text-base text-white/80 leading-relaxed mb-6 sm:mb-8 h-[8.125em] line-clamp-5 text-justify">
           {description}
         </p>
         <div className="grid grid-cols-2 gap-2 sm:gap-3">
